@@ -53,7 +53,8 @@ function configureDatabase() {
     couchbase-cli cluster-init \
     --cluster-username Administrator \
     --cluster-password password \
-    --cluster-ramsize 1024
+    --cluster-ramsize 1024 \
+    --services data,index,query,fts
     couchbase-cli node-init \
     -c localhost:8091 \
     -u Administrator \
