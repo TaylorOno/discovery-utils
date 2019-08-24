@@ -17,3 +17,6 @@ couchbase-cli user-manage \
     --rbac-password password \
     --roles bucket_admin[test-bucket] \
     --auth-domain local
+
+##Index Buckets
+cbq -e couchbase://localhost -u Administrator -p password --script="CREATE PRIMARY INDEX \`idx-test-bucket\` ON \`test-bucket\` USING GSI"

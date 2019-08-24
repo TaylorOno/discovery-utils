@@ -62,6 +62,9 @@ function configureDatabase() {
     --node-init-data-path /opt/couchbase/var/lib/couchbase/data \
     --node-init-index-path /opt/couchbase/var/lib/couchbase/data \
     --node-init-analytics-path /opt/couchbase/var/lib/couchbase/data
+    couchbase-server -k
+
+    startCouchbase
 
     for f in $(ls /initdb/*); do
         echo "found file $f"

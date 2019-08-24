@@ -1,6 +1,7 @@
 #!/bin/bash
 
 datadir=$(pwd)
+mkdir -p .datafiles
 
 display_help() {
     echo "Usage: $0 [option...]" >&2
