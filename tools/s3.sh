@@ -3,42 +3,57 @@
 declare -A BUCKET_MAP
 BUCKET_MAP['dev']='development'
 
-BUCKET=${BUCKET_MAP[$1]}
+PROFILE=$2
+BUCKET=${BUCKET_MAP[$PROFILE]}
 
-case $2 in
+display_help() {
+    echo "Usage: $0 <command> <profile> [options]" >&2
+    echo "Usage: $0 help" >&2
+    echo "Usage: $0 <command> help" >&2
+    echo "Tool Description"
+    echo "S3 Commands for the lazy"
+    echo
+    echo "Profiles"
+    echo "   dev            development"
+    echo
+    echo "Commands"
+    echo "   ls             list files"
+    echo "   cpt            copy to S3"
+    echo "   cpf            copy from S3"
+    echo "   mv             move file"
+    echo "   rm             remove file"
+    exit 1
+}
+
+case $1 in
+  -h | --help | help)
+    display_help
+    ;;
   "cpt" )
-    echo "aws s3 cp --sse AES256 $3 s3://${BUCKET}/$4 --profile $1"
-    aws s3 cp --sse AES256 $3 s3://${BUCKET}/"$4" --profile "$1"
+    echo "aws s3 cp --sse AES256 $3 s3://${BUCKET}/$4 --profile $PROFILE"
+    aws s3 cp --sse AES256 $3 s3://${BUCKET}/"$4" --profile "$PROFILE"
     ;;
 
   "cpf" )
-    echo "aws s3 cp s3://${BUCKET}/$3 $3 --profile $1"
-    aws s3 cp s3://${BUCKET}/"$3" "$3" --profile "$1"
+    echo "aws s3 cp s3://${BUCKET}/$3 $3 --profile $PROFILE"
+    aws s3 cp s3://${BUCKET}/"$3" "$3" --profile "$PROFILE"
     ;;
 
   "mv" )
-    echo "aws s3 mv --sse AES256 s3://${BUCKET}/$3 s3://${BUCKET}/$4 --profile $1"
-    aws s3 mv --sse AES256 s3://${BUCKET}/"$3" s3://${BUCKET}/"$4" --profile "$1"
+    echo "aws s3 mv --sse AES256 s3://${BUCKET}/$3 s3://${BUCKET}/$4 --profile $PROFILE"
+    aws s3 mv --sse AES256 s3://${BUCKET}/"$3" s3://${BUCKET}/"$4" --profile "$PROFILE"
     ;;
 
   "ls" )
-    echo "s3 ls s3://${BUCKET}/$3 --profile $1 | more"
-    aws s3 ls s3://${BUCKET}/"$3" --profile "$1" | more
+    echo "aws ls s3://${BUCKET}/$3 --profile $PROFILE | more"
+    aws s3 ls s3://${BUCKET}/"$3" --profile "$PROFILE" | more
     ;;
 
-  * )
-    echo "$0 [profile] [cmd] [options]"
-    echo
-    echo "profiles"
-    echo "- dev     development"
-    echo "- cwd     contentwise development"
-    echo "- cwp     contentwise production"
-    echo "- gdev    google development"
-    echo
-    echo "cmds"
-    echo "- cpt   copy to"
-    echo "- cpf   copy from"
-    echo "- mv    move"
-    echo "- ls    list"
+  "rm" )
+    echo "aws s3 rm s3://${BUCKET}/$3 --profile $PROFILE"
+    aws s3 rm s3://${BUCKET}/"$3" --profile "$PROFILE"
+    ;;
+  *)
+    display_help
     ;;
 esac

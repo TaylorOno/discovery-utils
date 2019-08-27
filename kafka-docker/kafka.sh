@@ -32,6 +32,15 @@ function checkBase {
 
 
 case "$1" in
+  lt)
+    docker exec -t discovery-kafka kafka-topics.sh --bootstrap-server localhost:9092 --list
+    ;;
+  lg)
+    docker exec -t discovery-kafka kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list
+    ;;
+  cg)
+    docker exec -t discovery-kafka kafka-consumer-groups.sh --bootstrap-server localhost:9092 --topic aeg-raw-catalog-feed --group google --reset-offsets --to-earliest --execute
+    ;;
   -h | --help)
       display_help
       exit 0

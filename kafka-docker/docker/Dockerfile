@@ -2,7 +2,8 @@ FROM openjdk:8u212-jre-alpine
 
 ENV KAFKA_VERSION=2.3.0 \
     SCALA_VERSION=2.12 \
-    KAFKA_HOME=/opt/kafka
+    KAFKA_HOME=/opt/kafka \
+    PATH="${PATH}:/opt/kafka/bin"
 
 COPY entrypoint.sh entrypoint.sh
 

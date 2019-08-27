@@ -48,6 +48,7 @@ case "$1" in
       -p 8091-8094:8091-8094 \
       -p 11210:11210 \
       -v "${datadir}/.datafiles:/opt/couchbase/var" \
+      -v "${datadir}/docker/initdb:/initdb" \
       discovery-couchbase > /dev/null 2>&1
       if [[ $? = 125 ]]; then
         echo "starting container discovery-couchbase"
